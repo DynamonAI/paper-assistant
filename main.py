@@ -1,6 +1,7 @@
 import os
 import streamlit as st
 from src.engine import AssistantEngine
+import logging
 import uuid
 
 st.title("Seamless Pdf Assistant")
@@ -29,12 +30,12 @@ if st.session_state.api_input_visble:
     with st.sidebar:
         api_key = st.text_input(
             "1. OpenAI API Key",
-            placeholder="Input your API Key,",
+            placeholder="Input your API Key",
             key="api_key",
             on_change=api_input_callback)
 
 if "api_key" in st.session_state:
-    engine = st.session_state.api_key
+    api_key = st.session_state.api_key
     
 def file_callback():
     st.session_state.uploader_input_visible = False
