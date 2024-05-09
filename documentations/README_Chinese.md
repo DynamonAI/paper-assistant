@@ -33,3 +33,7 @@ Deploy UI by streamlit
 ```bash
 streamlit run main.py
 ```
+
+## Web UI
+
+![](assets/example.png)
