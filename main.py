@@ -33,7 +33,7 @@ if api_key:
             st.session_state.messages.append({"role": "Assistant", "content": text})    
     
 uuid = uuid.uuid4()
-file_name = f"./temp/temp_{uuid}.pdf"
+file_name = f"/tmp/temp_{uuid}.pdf"
 if uploaded_file is not None:
     with open(file_name, "wb") as fw:
         bytes_data = uploaded_file.getvalue()
