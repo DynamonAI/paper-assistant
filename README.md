@@ -11,11 +11,11 @@ Try our demo: [![Streamlit App](https://static.streamlit.io/badges/streamlit_bad
 
 ## TODO
 
-- [] Support long context windows
-- [] Support multiple languages
-- [] Support multiple API (Gemma, Anthropic, etc)
-- [] Improve performance
-- [] More interactive operations
+- [ ] Support long context windows
+- [ ] Support multiple languages
+- [ ] Support multiple API (Gemma, Anthropic, etc)
+- [ ] Improve performance
+- [ ] More interactive operations
 
 
 ## Quick Start
