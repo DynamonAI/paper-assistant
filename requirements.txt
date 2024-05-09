@@ -1,0 +1,5 @@
+streamlit
+importlib-metadata
+pdfminer.six
+PyPDF2
+openai
