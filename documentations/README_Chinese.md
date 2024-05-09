@@ -6,22 +6,23 @@ English | [中文文档](documentation/README_Chinese.md)
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/release/python-390/)
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://dynamonai-pdf-assistant.streamlit.app/)
 
-This repo implrements an easy-deployed assistant that can help you to understand pdf files, especially for scholar paper, supporting English, Chinese and multuple languages. We provide a web UI and demo.
+该仓库实现了一个易于部署的助手，可以帮助您阅读 pdf 文件，特别是学术论文，并支持英语、中文和多种语言。 此外，我们提供 Web UI 和 Demo。
 
-Try our demo: [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://dynamonai-pdf-assistant.streamlit.app/)
+
+尝试我们的 Demo: [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://dynamonai-pdf-assistant.streamlit.app/)
 
 ## TODO
 
-[] Support long context windows
-[] Support multiple languages
-[] Support multiple API (Gemma, Anthropic, etc)
-[] Improve performance
-[] More interactive operations
+[] 支持长文本窗口
+[] 支持多种语言
+[] 支持多种 API (Gemma, Anthropic, etc)
+[] 提高性能
+[] 支持更多交互操作
 
 
-## Quick Start
+## 快速开始
 
-Create an environment and install all dependencies.
+创建环境并安装所有依赖项。
 
 ```bash
 conda create -n pdf_assistant python=3.10
@@ -29,11 +30,12 @@ conda activate pdf_assistant
 pip install -r requirements.txt
 ```
 
-Deploy UI by streamlit
+通过 streamlit 部署 UI
+
 ```bash
 streamlit run main.py
 ```
 
 ## Web UI
 
-![](assets/example.png)
+![](assets/example_Chinese.png)
