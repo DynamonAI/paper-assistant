@@ -38,4 +38,4 @@ streamlit run main.py
 
 ## Web UI
 
-![](assets/example_Chinese.png)
+![](../assets/example_Chinese.png)
