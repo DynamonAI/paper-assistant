@@ -4,8 +4,9 @@ from src.engine import AssistantEngine
 import logging
 import uuid
 
-st.title("Seamless Pdf Assistant")
-st.text("We don't save your information. All content will be reset after refresh.")
+st.markdown('<p><font size="16"><b>Pdf Assistant</b></font>&nbsp;&nbsp;&nbsp;&nbsp;Powered by <a href="https://DynamonAI.com">DynamonAI</a></p>', unsafe_allow_html=True)
+
+st.text("We don't save your data. All content will be cleaned after refresh.")
 
 def init():
     st.session_state.api_input_visble = True
@@ -77,3 +78,4 @@ if prompt:
     with st.chat_message("Assistant"):
         st.markdown(received)
         st.session_state.messages.append({"role": "Assistant", "content": received})
+
