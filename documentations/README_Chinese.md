@@ -1,4 +1,4 @@
-English | [中文文档](documentations/README_Chinese.md)
+English | [中文文档](documentation/README_Chinese.md)
 
 # Pdf Assistant
 
