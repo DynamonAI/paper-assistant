@@ -4,7 +4,7 @@ from src.engine import AssistantEngine
 import logging
 import uuid
 
-st.markdown('<p><font size="16"><b>Pdf Assistant</b></font>&nbsp;&nbsp;&nbsp;&nbsp;Powered by <a href="https://DynamonAI.com">DynamonAI</a></p>', unsafe_allow_html=True)
+st.markdown('<p><font size="16"><b>Paper Assistant</b></font>&nbsp;&nbsp;&nbsp;&nbsp;Powered by <a href="https://DynamonAI.com">DynamonAI</a></p>', unsafe_allow_html=True)
 
 st.text("We don't save your data. All content will be cleaned after refresh.")
 
@@ -46,8 +46,9 @@ def file_callback():
         bytes_data = st.session_state.uploaded_file.getvalue()
         fw.write(bytes_data)
     st.toast("Received your file. Please wait a moment.")
-    engine = AssistantEngine(api_key, model_name="gpt-3.5-turbo", pdf_path=file_name)
-    st.session_state.engine = engine
+    with st.spinner('I am understanding the pdf uploaded. It might take few minutes...'):
+        engine = AssistantEngine(api_key, model_name="gpt-3.5-turbo", pdf_path=file_name)
+        st.session_state.engine = engine
     st.toast("Come on! Ask me a question!")
     st.balloons()
     st.session_state.chat_input_disable = False

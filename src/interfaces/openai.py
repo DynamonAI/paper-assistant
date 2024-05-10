@@ -20,6 +20,7 @@ class OpenAIInterface(BaseInterface):
         model_name=None,
         sleep_time=2,
         return_text=True,
+        save_to_history=True,
         **kwargs
     ):
         if model_name is None:
@@ -49,12 +50,16 @@ class OpenAIInterface(BaseInterface):
             {"role": "assistant", "content": assistant_text}
         )
 
+        if save_to_history == False:
+            # remove the prompt and response of this turn
+            self.messages = self.messages[:-2]
+
         if return_text == True:
             return assistant_text
 
         return completion
     
-    def construct_section_prompt(self, sections):
+    def append_section_prompt(self, sections):
         for title, content in tqdm(sections.items()):
             self.messages.append(
                 {"role": "user", "content": f"The following section is {title}: {content}"}

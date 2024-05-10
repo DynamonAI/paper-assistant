@@ -1,5 +1,6 @@
 from pdfminer.high_level import extract_pages
 from pdfminer.layout import LTTextContainer
+from tqdm import tqdm
 import json
 
 
@@ -11,7 +12,7 @@ class PdfReader:
         self.contents, self.titles = self.get_contents_and_titles()
         self.titles = self.filter_title(self.titles)
         self.sections = self.format_section(self.contents, self.titles)
-        self.interface.construct_section_prompt(self.sections)
+        self.sections = self.construct_section_prompt(self.sections)
 
     def get_contents_and_titles(self):
         contents = []
@@ -38,7 +39,7 @@ class PdfReader:
             f"You need to return all possible titles that are the same as the original text.\n"
             f"Please return a python list without any extra text."
         )
-        response = self.interface.completion(prompt, temperature=0)
+        response = self.interface.completion(prompt, temperature=0, save_to_history=False)
         titles = [x.strip("\'\"").lower() for x in response.strip('][').split(', ')]
         return titles
 
@@ -47,8 +48,6 @@ class PdfReader:
         title = "header (it might include paper's title, authors' name and affiliations)"
         text = ""
         for content in contents:
-            if len(sections) > 5:
-                break
             content = content.strip()
             if len(content) < self.title_max_length and content.lower() in titles:
                 sections[title] = text
@@ -56,4 +55,13 @@ class PdfReader:
                 title = content
             text = "\n".join((text, content))
         sections[title] = text
+        return sections
+
+    def construct_section_prompt(self, sections):
+        for title, content in tqdm(sections.items()):
+            prompt = f"You will receive a part of the paper to you. You need to summarize as much of the important content of this section as possible and keep it as consistent as possible with the original. Don't throw away names, affiliations and titles, and use longer text to retain more detail.The following section is {title}: {content}"
+            summerized_content  = self.interface.completion(prompt, save_to_history=False, temperature=0.5)
+            sections[title] = summerized_content
+            print(f"{title}\n{summerized_content}\n", "---"*20)
+        self.interface.append_section_prompt(sections)
         return sections
