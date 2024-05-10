@@ -8,7 +8,7 @@ English | [中文文档](documentation/README_Chinese.md)
 
 This repo implrements an easy-deployed assistant that can help you to understand pdf files, especially for scholar paper, supporting English, Chinese and multuple languages. We provide a web UI and demo.
 
-Try our demo: [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://dynamonai-pdf-assistant.streamlit.app/)
+Try our demo: [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://paper-assistant.streamlit.app/)
 
 ## TODO
 
