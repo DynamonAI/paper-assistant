@@ -7,8 +7,8 @@
 
 该仓库基于大语言模型的API（OpenAI，Gemma，Anthropic）实现了一个易于部署的助手，可以帮助您阅读 pdf 文件，特别是学术论文，并支持英语、中文和多种语言。 此外，我们提供 Web UI 和 Demo。
 
-
 尝试我们的 Demo: [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://dynamonai-pdf-assistant.streamlit.app/)
+
 
 ## TODO
 
