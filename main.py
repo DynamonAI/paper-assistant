@@ -46,7 +46,7 @@ def file_callback():
         bytes_data = st.session_state.uploaded_file.getvalue()
         fw.write(bytes_data)
     st.toast("Received your file. Please wait a moment.")
-    with st.spinner('I am understanding the pdf uploaded. It might take few minutes...'):
+    with st.spinner('I am processing the paper uploaded. It might take a few minutes...'):
         engine = AssistantEngine(api_key, model_name="gpt-3.5-turbo", pdf_path=file_name)
         st.session_state.engine = engine
     st.toast("Come on! Ask me a question!")
