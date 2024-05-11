@@ -6,8 +6,7 @@ class AssistantEngine:
         self.interface = OpenAIInterface(api_key, model_name)
         self.reader = PdfReader(pdf_path, interface=self.interface)
 
-    def get_user_input(self, query):
+    def get_completion(self, query, **kwargs):
         prompt = f"Here is a question, please answer it carefully: {query}"
-        answer = self.interface.completion(prompt)
+        answer = self.interface.completion(prompt, **kwargs)
         return answer
-

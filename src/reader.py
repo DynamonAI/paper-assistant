@@ -62,6 +62,5 @@ class PdfReader:
             prompt = f"You will receive a part of the paper to you. You need to summarize as much of the important content of this section as possible and keep it as consistent as possible with the original. Don't throw away names, affiliations and titles, and use longer text to retain more detail.The following section is {title}: {content}"
             summerized_content  = self.interface.completion(prompt, save_to_history=False, temperature=0.5)
             sections[title] = summerized_content
-            print(f"{title}\n{summerized_content}\n", "---"*20)
-        self.interface.append_section_prompt(sections)
+            self.interface.append_section_prompt(title, summerized_content)
         return sections

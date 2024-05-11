@@ -4,9 +4,14 @@ from src.engine import AssistantEngine
 import logging
 import uuid
 
-st.markdown('<p><font size="16"><b>Paper Assistant</b></font>&nbsp;&nbsp;&nbsp;&nbsp;Powered by <a href="https://DynamonAI.com">DynamonAI</a></p>', unsafe_allow_html=True)
+avatars = {
+    "User": None,
+    "Assistant": None
+}
 
-st.text("We don't save your data. All content will be cleaned after refresh.")
+with st.sidebar:
+    st.title('Paper Assistant')
+    st.markdown('We do not save your data. All content and information will be cleaned after refresh.')
 
 def init():
     st.session_state.api_input_visble = True
@@ -18,25 +23,27 @@ if "messages" not in st.session_state:
     init()
 
 for message in st.session_state.messages:
-    with st.chat_message(message["role"]):
+    with st.chat_message(message["role"], avatar=avatars[message["role"]]):
         st.markdown(message["content"])
 
 def api_input_callback():
-    st.session_state.api_key = st.session_state.api_key.strip()
+    st.session_state.api_key = st.session_state.api_key_input.strip()
     st.session_state.api_input_visble = False
     st.toast("Got your API Key!")
     
 api_key = None
 if st.session_state.api_input_visble:
     with st.sidebar:
-        api_key = st.text_input(
-            "1. OpenAI API Key",
+        st.text_input(
+            "OpenAI API Key",
             placeholder="Input your API Key",
-            key="api_key",
+            key="api_key_input",
             on_change=api_input_callback)
 
-if "api_key" in st.session_state:
+if "api_key" in st.session_state and len(st.session_state.api_key) > 0:
     api_key = st.session_state.api_key
+    with st.sidebar:
+        st.success('API key already provided!', icon='✅')
     
 def file_callback():
     st.session_state.uploader_input_visible = False
@@ -59,24 +66,63 @@ def file_callback():
 engine = None
 if st.session_state.uploader_input_visible:
     with st.sidebar:
-        uploaded_file = st.file_uploader(
-            "2. Choose a pdf",
+        st.file_uploader(
+            "Choose a Paper",
             key="uploaded_file",
-            on_change=file_callback
+            on_change=file_callback,
+            type="pdf"
         )
 
 
 if "engine" in st.session_state:
     engine = st.session_state.engine
+    with st.sidebar:
+        st.success('File already uploaded!', icon='✅')
 
 
-prompt = st.chat_input("Ask a question", disabled=st.session_state.chat_input_disable)
-if prompt:
-    with st.chat_message("User"):
-       st.markdown(prompt)
-       st.session_state.messages.append({"role": "User", "content": prompt})
-    received = engine.get_user_input(prompt)
-    with st.chat_message("Assistant"):
-        st.markdown(received)
-        st.session_state.messages.append({"role": "Assistant", "content": received})
+def stream_wrapper(prompt,respone):
+    def get_stream_rep():
+        collected_messages = []
+        for chunk in respone:
+            chunk_message = chunk.choices[0].delta.content
+            if chunk_message is None:
+                continue
+#             collected_messages.append(chunk_message)
+            yield chunk_message
+#         collected_messages = "".join([m for m in collected_messages if m is not None])
+#         st.session_state.collected_messages = collected_messages
+#         st.session_state.messages.append({"role": "Assistant", "content": collected_messages})
+#         engine.interface.append_message("assistant", collected_messages)
+    return get_stream_rep
+
+with st.sidebar:
+    st.markdown('<p>Powered by <a href="https://DynamonAI.com">DynamonAI</a></p>', unsafe_allow_html=True)
+
+
+def chat_input_callback():
+    pass
+
+if prompt := st.chat_input(
+    "Ask a question",
+    disabled=st.session_state.chat_input_disable,
+    on_submit=chat_input_callback,
+    key="prompt"
+):
+    prompt = st.session_state.prompt
+    with st.chat_message("User", avatar=avatars["User"]):
+        st.markdown(prompt)
+        st.session_state.messages.append({"role": "User", "content": prompt})
+    received = engine.get_completion(prompt, return_text=False, stream=True)
+    stream_func = stream_wrapper(prompt, received)
+    with st.chat_message("Assistant", avatar=avatars["Assistant"]):
+        full_response =  st.write_stream(stream_func)
+#         placeholder = st.empty()
+#         full_response = ''
+#         stream_obj = stream_func()
+#         for item in stream_obj:
+#             full_response += item
+#             placeholder.markdown(full_response)
+#         placeholder.markdown(full_response)
+        st.session_state.messages.append({"role": "Assistant", "content": full_response})
+        engine.interface.append_message("assistant", full_response)
 
